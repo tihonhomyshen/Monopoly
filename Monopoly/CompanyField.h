@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "Field.h"
-class CompanyField: Field
+class CompanyField: public Field
 {
 public:
 	

@@ -1,10 +1,11 @@
 #pragma once
 #include <vector>
+#include <memory>
 #include "Field.h"
 class Board
 {
 public:
-	std::vector<Field>cells;
+	std::vector<std::shared_ptr<Field>>cells;
 	Board create();
 	void render();
 

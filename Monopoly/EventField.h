@@ -2,10 +2,10 @@
 #include <map>
 #include <string>
 #include "Field.h"
-class EventField : Field
+class EventField : public Field
 {
 public:
-	int event_type;
+	std::string event_type;
 
 	std::map<std::string, int>events = {
 		{"Start", 1}, {"Chance", 2},
@@ -13,6 +13,6 @@ public:
 		{"Pay1", 5}, {"Pay2", 6},
 	};
 
-	EventField(int, int);
+	EventField(int, std::string);
 };
 
