@@ -1,4 +1,4 @@
-#include "Cubes.h"
+#include "Dice.h"
 
 int Cubes::spin()
 {

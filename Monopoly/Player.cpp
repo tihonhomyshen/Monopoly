@@ -1,6 +1,6 @@
 #include "Player.h"
 
-bool Player::check()
+bool Player::check_condition()
 {
     return 0;
 }

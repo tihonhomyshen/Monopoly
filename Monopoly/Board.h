@@ -3,10 +3,12 @@
 #include "Field.h"
 class Board
 {
-private:
-	std::vector<std::vector<Field>>cells;
 public:
-	void create(int);
+	std::vector<Field>cells;
+	Board create();
 	void render();
+
+	bool is_end();
+
 };
 

@@ -2,13 +2,18 @@
 #include <iostream>
 class Player
 {
-private:
+public:
+	Player() = default;
+
 	int id;
+	int pos;
 	std::string name;
 	int money;
 	int total_cost;
-	//avatar: img
-public:
-	bool check();
+	bool first_turn;
+
+	bool check_condition();
+	
+	
 };
 
