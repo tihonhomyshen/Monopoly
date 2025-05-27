@@ -5,10 +5,15 @@
 class Board
 {
 public:
+
+	Board() = default;
 	std::vector<std::shared_ptr<Field>>cells;
 	Board create();
 	void render();
 
+	//Field* operator[](int ind);
+
+	void get_info();
 	bool is_end();
 
 };

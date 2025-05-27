@@ -1,7 +1,6 @@
 #include "EventField.h"
 
-EventField::EventField(int _id, std::string _event) 
+void EventField::event_handler()
 {
-	id = _id;
-	event_type = _event;
+
 }

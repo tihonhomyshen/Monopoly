@@ -5,5 +5,8 @@
 using namespace std;
 
 int main() {
-	Board board = board.create();
+	setlocale(LC_CTYPE, "Russian");
+	Board board;
+	board.create();
+	board.get_info();
 }

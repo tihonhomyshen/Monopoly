@@ -10,9 +10,11 @@ public:
 	std::map<std::string, int>events = {
 		{"Start", 1}, {"Chance", 2},
 		{"Prison", 3}, {"Jackpot", 4},
-		{"Pay1", 5}, {"Pay2", 6},
+		{"Pay1", 5}, {"Pay2", 6}, {"Guard", 7}
 	};
 
-	EventField(int, std::string);
+	void event_handler();
+
+	EventField(std::string event_type) : event_type(event_type) {};
 };
 
