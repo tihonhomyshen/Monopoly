@@ -22,5 +22,6 @@ public:
 	bool can_upgrade = 0;
 
 	bool checkUpgrade();
+
 };
 

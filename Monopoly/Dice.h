@@ -1,9 +1,15 @@
 #pragma once
-class Cubes
+#include <random>
+class Dice
 {
 public:
-	int value;
+	Dice() {
+		std::random_device device;
+		random_gen.seed(device());
+	}
+	int roll();
 
-	int spin();
+private:
+	std::mt19937 random_gen;
 };
 

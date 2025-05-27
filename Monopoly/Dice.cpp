@@ -1,6 +1,8 @@
 #include "Dice.h"
+#include <random>
 
-int Cubes::spin()
-{
-    return 0;
+int Dice::roll()
+{	
+	std::uniform_int_distribution<int>range(1, 6);
+	return range(random_gen);
 }

@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include "Field.h"
+#include "Player.h"
 class EventField : public Field
 {
 public:
@@ -13,7 +14,9 @@ public:
 		{"Pay1", 5}, {"Pay2", 6}, {"Guard", 7}
 	};
 
-	void event_handler();
+	void event_handler(Player&, std::string);
+	void generate_chance(Player&);
+	void prison_handle(Player&);
 
 	EventField(std::string event_type) : event_type(event_type) {};
 };

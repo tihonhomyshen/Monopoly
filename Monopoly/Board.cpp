@@ -1,5 +1,6 @@
 #include "Monopoly.h"
-
+#include <vector>
+#include <locale.h>
 
 Board Board::create()
 {
@@ -74,7 +75,32 @@ void Board::get_info()
 	}
 }
 
-bool Board::is_end()
+bool Board::is_end(std::vector<Player>&v)
 {
-	return false;
+	setlocale(LC_CTYPE, "Russian");
+	bool state = false;
+	int count = 0;
+	int winner = 0;
+	for (int i = 0; i < v.size(); ++i) {
+		if (v[i].is_over) count++;
+		else {
+			v[i].check_condition();
+		}
+		if (!v[i].is_over) winner = i;
+	}
+	if (count == v.size() - 1) {
+		std::cout << "Congrats, winner: " << v[winner].name << '\n';
+		state = true;
+	}
+	return state;
+
+}
+
+void Board::check_field(Player &p, int pos)
+{
+	CompanyField* obj = dynamic_cast<CompanyField*>(this->cells[pos].get());
+	EventField* e = dynamic_cast<EventField*>(this->cells[pos].get());
+	if (obj == nullptr) {
+		e->event_handler(p, e->event_type);
+	}
 }
