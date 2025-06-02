@@ -1,11 +1,16 @@
 #include "Monopoly.h"
 #include <vector>
 #include <locale.h>
+#include <chrono>
+#include <thread>
+#include <SFML/Graphics.hpp>
+
 
 Board Board::create()
 {
 	Board tmp;
 	tmp.cells.resize(40);
+
 	tmp.cells[0] = std::make_unique<EventField>("Start");
 	tmp.cells[1] = std::make_unique<CompanyField>(1, "Chanel", "", "", 600, 0, 0);
 	tmp.cells[2] = std::make_unique<EventField>("Chance");
@@ -47,6 +52,60 @@ Board Board::create()
 	tmp.cells[38] = std::make_unique<EventField>("Chance");
 	tmp.cells[39] = std::make_unique<CompanyField>(10, "Nokia", "", "", 4000, 0, 0);
 
+	const sf::Vector2f cornerSize(120.f, 120.f);
+	const sf::Vector2f horizontalSize(120.f, 65.f);
+	const sf::Vector2f verticalSize(65.f, 120.f);
+
+	sf::Vector2f position(300.f, 20.f);
+
+
+	tmp.cells[0]->position = position;
+	tmp.cells[0]->size = cornerSize;
+	position.x += cornerSize.x;
+
+	for (int i = 1; i < 10; ++i) {
+		tmp.cells[i]->position = position;
+		tmp.cells[i]->size = verticalSize;
+		position.x += verticalSize.x;
+	}
+	tmp.cells[10]->position = position;
+	tmp.cells[10]->size = cornerSize;
+	position.y += cornerSize.y;
+
+	for (int i = 11; i < 20; ++i) {
+		tmp.cells[i]->position = position;
+		tmp.cells[i]->size = horizontalSize;
+		position.y += horizontalSize.y;
+	}
+
+	tmp.cells[20]->position = position;
+	tmp.cells[20]->size = cornerSize;
+	position.x -= verticalSize.x;
+	for (int i = 21; i < 30; ++i) {
+		tmp.cells[i]->position = position;
+		tmp.cells[i]->size = verticalSize;
+		if (i == 29) {
+			position.x -= cornerSize.x;
+		}
+		else position.x -= verticalSize.x;
+	}
+	tmp.cells[30]->position = position;
+	tmp.cells[30]->size = cornerSize;
+	position.y -= horizontalSize.y;
+	for (int i = 31; i < 40; ++i) {
+		tmp.cells[i]->position = position;
+		tmp.cells[i]->size = horizontalSize;
+		if (i == 29) {
+			position.y -= cornerSize.y;
+		}
+		else position.y -= horizontalSize.y;
+	}
+
+
+	for (int i = 0; i < 40; ++i) {
+		std::cout << i << " " << tmp.cells[i]->position.x << " " << tmp.cells[i]->position.y << "\n";
+	}
+
 	for (int i = 0; i < 40; ++i) {
 		tmp.cells[i]->id = i + 1;
 	}
@@ -54,9 +113,18 @@ Board Board::create()
 	return *this;
 }
 
-void Board::render()
+void Board::render(sf::RenderWindow& window, std::vector<Player>&players)
 {
+	for (auto& cell : cells) {
+		cell->render(window);
+	}
+}
 
+sf::Vector2f Board::getCellPosition(int cellId) const {
+	if (cellId >= 0 && cellId < cells.size()) {
+		return cells[cellId]->position;
+	}
+	return { 0, 0 };
 }
 
 void Board::get_info()

@@ -14,6 +14,26 @@ public:
 		{"Pay1", 5}, {"Pay2", 6}, {"Guard", 7}
 	};
 
+	float outlineThickness = 2.f;
+	sf::Color outlineColor = sf::Color::Black;
+
+	sf::Vector2f getRenderPosition() const {
+		return { position.x + outlineThickness, position.y + outlineThickness };
+	}
+
+	sf::Vector2f getRenderSize() const {
+		return { size.x - 2 * outlineThickness, size.y - 2 * outlineThickness };
+	}
+
+	void render(sf::RenderWindow& window) override {
+		sf::RectangleShape shape(getRenderSize());
+		shape.setPosition(getRenderPosition());
+		shape.setFillColor(sf::Color(200, 200, 200));
+		shape.setOutlineThickness(outlineThickness);
+		shape.setOutlineColor(outlineColor);
+		window.draw(shape);
+	}
+
 	void event_handler(Player&, std::string);
 	void generate_chance(Player&);
 	void prison_handle(Player&);
