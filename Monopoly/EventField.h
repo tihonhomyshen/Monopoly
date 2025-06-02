@@ -7,7 +7,9 @@ class EventField : public Field
 {
 public:
 	std::string event_type;
-
+	sf::Texture texture;
+	sf::Sprite sprite;
+	std::string spritePath;
 	std::map<std::string, int>events = {
 		{"Start", 1}, {"Chance", 2},
 		{"Prison", 3}, {"Jackpot", 4},
@@ -38,6 +40,9 @@ public:
 	void generate_chance(Player&);
 	void prison_handle(Player&);
 
-	EventField(std::string event_type) : event_type(event_type) {};
+	EventField(std::string event_type, std::string spritePath) : event_type(event_type), spritePath(spritePath){
+		texture.loadFromFile(spritePath);
+		sprite.setTexture(texture);
+	};
 };
 

@@ -2,7 +2,9 @@
 #include <iostream>
 #include <map>
 #include "Dice.h"
+#include "Board.h"
 #include "CompanyField.h"
+#include "PurchaseDialog.h"
 #include <SFML/Graphics.hpp>
 class Player
 {
@@ -10,9 +12,11 @@ private:
 	sf::CircleShape shape;
 	sf::Text nameText;
 	sf::Vector2f offset;
+	CompanyField* toBuy = nullptr;
+	bool wantsToBuy = false;
 public:
-	Player(int id, std::string name, sf::Color color, sf::Vector2f offset = {0, 0}) : id(id), name(name), color(color), offset(offset) {
-		shape.setRadius(20.f);
+	Player(int id, std::string name, sf::Color color, sf::Vector2f offset = { 0, 0 }) : id(id), name(name), color(color), offset(offset) {
+		shape.setRadius(15.f);
 		shape.setOutlineThickness(2.f);
 		shape.setOutlineColor(sf::Color::Black);
 
@@ -39,25 +43,54 @@ public:
 	};
 
 	void draw(sf::RenderWindow& window, const sf::Font& font) {
-		if (is_over) return;  // Не рисуем, если игрок выбыл
+		if (is_over) return;
 
-		nameText.setFont(font);  // Устанавливаем шрифт перед отрисовкой
 		window.draw(shape);
+		nameText.setFont(font);
+		nameText.setFillColor(sf::Color::Black);
+		nameText.setCharacterSize(13);
+		nameText.setPosition(shape.getPosition().x, shape.getPosition().y - 25);
 		window.draw(nameText);
+
+		sf::Text moneyText;
+		moneyText.setFont(font);
+		moneyText.setFillColor(sf::Color::Black);
+		moneyText.setString("$" + std::to_string(money));
+		moneyText.setCharacterSize(13);
+		moneyText.setPosition(shape.getPosition().x, shape.getPosition().y + 25);
+		window.draw(moneyText);
 	}
 	void setPosition(sf::Vector2f cellPosition) {
-		// Устанавливаем позицию игрока относительно центра клетки
 		shape.setPosition(cellPosition + offset);
 	}
 
-	void turn() {
+
+	int getMoney() const { return money; }
+
+	void buyProperty(CompanyField& field) {
+		if (money >= field.price) {
+			money -= field.price;
+			field.setOwnerId(this->id);
+		}
+	}
+
+	bool turn(Board& board) {
 		Dice dice;
 		int v1 = dice.roll();
 		int v2 = dice.roll();
-		pos = (v1 + v2) % 40;
-		if (v1 == v2) {
-			turn();
+		pos += (v1 + v2);
+		if (pos >= 40) money += 2'000;
+		pos %= 40;
+		auto company = dynamic_cast<CompanyField*>(board.cells[pos].get());
+		if (company != nullptr) {
+			CompanyField* company = dynamic_cast<CompanyField*>(board.cells[pos].get());
+			if (company->owner_id != id && company->owner_id != 0) {
+				money -= company->price * 0.5;
+			}
 		}
+
+		
+		return v1 == v2;
 	};
 	bool check_condition() {
 		is_over = (total_cost <= 0);

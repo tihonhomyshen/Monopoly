@@ -147,16 +147,18 @@
     <ClCompile Include="EventField.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="CompanyField.h" />
     <ClInclude Include="Dice.h" />
     <ClInclude Include="EventField.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Monopoly.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PurchaseDialog.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

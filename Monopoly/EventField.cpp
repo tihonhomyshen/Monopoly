@@ -11,7 +11,6 @@ void EventField::event_handler(Player& p, std::string e)
 		generate_chance(p);
 	}
 	
-
 	if (e == "Guard") {
 		p.pos = 10;
 	}
