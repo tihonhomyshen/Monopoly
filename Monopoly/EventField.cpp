@@ -2,19 +2,6 @@
 #include "Player.h"
 #include "Dice.h"
 
-void EventField::event_handler(Player& p, std::string e)
-{
-	if (e == "Start" && !p.first_turn) {
-		p.money += 1'000;
-	}
-	if (e == "Chance") {
-		generate_chance(p);
-	}
-	
-	if (e == "Guard") {
-		p.pos = 10;
-	}
-}
 
 void EventField::generate_chance(Player& p)
 {

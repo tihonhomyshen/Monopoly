@@ -13,5 +13,6 @@ public:
 
 	virtual ~Field() = default;
 	virtual void render(sf::RenderWindow& window) = 0;
+
 };
 

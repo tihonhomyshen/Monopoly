@@ -20,11 +20,12 @@ private:
 	};
 	sf::Texture texture;
 	sf::Sprite sprite;
+	sf::RectangleShape ownerHalf;
 	sf::Color getGroupColor(int group) {
-		//auto it = mp.find(group);
-		//if (it != mp.end()) {
-		//	return it->second;
-		//}
+		auto it = mp.find(group);
+		if (it != mp.end()) {
+			return it->second;
+		}
 		return sf::Color::White; 
 	}
 
@@ -32,7 +33,9 @@ public:
 	CompanyField(int group_id, std::string name, std::string category, std::string description, int price,
 		int upgrade_price, int buyout, std::string spritePath)
 		: group_id(group_id), name(name), category(category), description(description), price(price),
-		upgrade_price(upgrade_price), buyout(buyout) {
+		upgrade_price(upgrade_price), buyout(buyout) {	
+		ownerHalf.setSize(sf::Vector2f(0, 0));
+		ownerHalf.setFillColor(sf::Color::Transparent);
 		texture.loadFromFile(spritePath);
 		sprite.setTexture(texture);
 		sprite.rotate(90);
@@ -49,6 +52,7 @@ public:
 		return { size.x - 2 * outlineThickness, size.y - 2 * outlineThickness };
 	}
 
+
 	void render(sf::RenderWindow& window) override {
 		sf::RectangleShape shape(getRenderSize());
 		shape.setPosition(getRenderPosition());
@@ -57,6 +61,10 @@ public:
 		shape.setFillColor(getGroupColor(group_id));
 		window.draw(shape);
 		window.draw(sprite);
+		if (owner_id != 0) {
+			ownerHalf.setPosition(getRenderPosition().x, getRenderPosition().y + getRenderSize().y / 2);
+			window.draw(ownerHalf);
+		}
 	}
 
 	int group_id;
@@ -83,7 +91,13 @@ public:
 		return name;
 	}
 
-	void setOwnerId(int id) { owner_id = id; }
+	void setOwner(int playerId, const sf::Color& playerColor) {
+		owner_id = playerId;
+		sf::FloatRect bounds = sprite.getGlobalBounds();
+		ownerHalf.setSize(sf::Vector2f(20, 20));
+		ownerHalf.setPosition(bounds.left, bounds.top);
+		ownerHalf.setFillColor(playerColor);
+	}
 
 	bool checkUpgrade();
 
